@@ -9,7 +9,7 @@ class City extends Component {
         return (
             <div className="city col s12">
                 <div className="image">
-                    <img src={image} />
+                    <img alt="" src={image} />
                 </div>
                 <div className="city-name">
                     {cityName}
