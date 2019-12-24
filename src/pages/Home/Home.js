@@ -4,13 +4,15 @@ import SearchBox from './SearchBox';
 import axios from 'axios';
 import Spinner from '../../utility/Spinner/Spinner';
 import Cities from '../../utility/City/Cities';
+import Activities from '../../utility/Activity/Activities';
 
 class Home extends Component {
     state = {
         cities: [],
         europeCities: {},
         asiaCities: {},
-        exoticCities: {}
+        exoticCities: {},
+        activities: []
     }
 
     async componentDidMount() {
@@ -34,6 +36,13 @@ class Home extends Component {
             });
         })
 
+        const activitiesUrl = await axios.get(`${window.apiHost}/activities/today`)
+
+        this.setState({
+            activities: activitiesUrl.data
+        })
+
+
         // const recommendedCities = `${window.apiHost}/cities/recommended`;
         // const europeCitiesUrl = `${window.apiHost}/cities/europe`;
         // const asiaCitiesUrl = `${window.apiHost}/cities/asia`;
@@ -53,11 +62,12 @@ class Home extends Component {
         //     console.log(data[3].data);
         // })
 
-
     }
 
     render() {
-        console.log(this.state.cities);
+        // console.log(this.state.cities);
+        // console.log(this.state.activities);
+
         if (this.state.cities.length === 0) {
             return (
                 <Spinner />
@@ -80,6 +90,11 @@ class Home extends Component {
                     <div className="col s12">
                         <Cities cities={this.state.cities} header="Recommended Cities For You" />    
                     </div>
+
+                    <div className="col s12">
+                        <Activities activities={this.state.activities} header="Today in your area" />
+                    </div>
+
                     <div className="col s12">
                         <Cities cities={this.state.europeCities.cities} header={this.state.europeCities.header} />    
                     </div>
